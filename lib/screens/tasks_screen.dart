@@ -1,8 +1,19 @@
+import 'package:flutodo/models/task.dart';
 import 'package:flutodo/screens/add_task_screen.dart';
 import 'package:flutodo/widgets/tasks_list.dart';
 import 'package:flutter/material.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> tasks = [
+    Task(name: 'Ekmek al'),
+    Task(name: 'Peynir al'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +45,7 @@ class TasksScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '12 Task',
+                    '${tasks.length} Task',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.0,
@@ -53,7 +64,7 @@ class TasksScreen extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(30.0),
-                  child: TasksList(),
+                  child: TasksList(tasks),
                 ),
               ),
             )
@@ -64,9 +75,14 @@ class TasksScreen extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) {
-              return AddTaskScreen();
-            },
+            builder: (context) => AddTaskScreen(
+              (taskTitle) {
+                setState(() {
+                  tasks.add(Task(name: taskTitle));
+                });
+                Navigator.pop(context);
+              },
+            ),
           );
         },
         child: Icon(Icons.add),

@@ -2,23 +2,32 @@ import 'package:flutodo/models/task.dart';
 import 'package:flutodo/widgets/task_tile.dart';
 import 'package:flutter/material.dart';
 
-class TasksList extends StatelessWidget {
-  final List<Task> taskList = [
-    Task(name: 'Ekmek al'),
-    Task(name: 'Peynir al'),
-  ];
+class TasksList extends StatefulWidget {
+  final List<Task> tasks;
 
+  TasksList(this.tasks);
+
+  @override
+  _TasksListState createState() => _TasksListState();
+}
+
+class _TasksListState extends State<TasksList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
         print(index);
         return TaskTile(
-          title: taskList[index].name,
-          isChecked: taskList[index].isDone,
+          taskTitle: widget.tasks[index].name,
+          isChecked: widget.tasks[index].isDone,
+          checkboxCallback: (isChecked) {
+            setState(() {
+              widget.tasks[index].isDone = isChecked;
+            });
+          },
         );
       },
-      itemCount: taskList.length,
+      itemCount: widget.tasks.length,
     );
   }
 }
