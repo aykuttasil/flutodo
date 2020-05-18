@@ -1,4 +1,3 @@
-import 'package:flutodo/models/task.dart';
 import 'package:flutodo/models/task_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,8 +50,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                Provider.of<TaskData>(context, listen: false)
-                    .addTask(newTaskTitle);
+                context.read<TaskData>().addTask(newTaskTitle);
                 Navigator.pop(context);
               },
             ),

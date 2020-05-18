@@ -1,4 +1,3 @@
-import 'package:flutodo/models/task.dart';
 import 'package:flutodo/models/task_data.dart';
 import 'package:flutodo/screens/add_task_screen.dart';
 import 'package:flutodo/widgets/tasks_list.dart';
@@ -41,17 +40,12 @@ class _TasksScreenState extends State<TasksScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  Consumer<TaskData>(
-                    builder:
-                        (BuildContext context, TaskData value, Widget child) {
-                      return Text(
-                        '${value.tasks.length} Task',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.0,
-                        ),
-                      );
-                    },
+                  Text(
+                    '${context.watch<TaskData>().tasks.length} Task',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.0,
+                    ),
                   ),
                 ],
               ),
