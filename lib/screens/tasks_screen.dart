@@ -1,7 +1,9 @@
 import 'package:flutodo/models/task.dart';
+import 'package:flutodo/models/task_data.dart';
 import 'package:flutodo/screens/add_task_screen.dart';
 import 'package:flutodo/widgets/tasks_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -9,11 +11,6 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'Ekmek al'),
-    Task(name: 'Peynir al'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +41,17 @@ class _TasksScreenState extends State<TasksScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  Text(
-                    '${tasks.length} Task',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                    ),
+                  Consumer<TaskData>(
+                    builder:
+                        (BuildContext context, TaskData value, Widget child) {
+                      return Text(
+                        '${value.tasks.length} Task',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -64,7 +66,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(30.0),
-                  child: TasksList(tasks),
+                  child: TasksList(),
                 ),
               ),
             )
@@ -75,14 +77,7 @@ class _TasksScreenState extends State<TasksScreen> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => AddTaskScreen(
-              (taskTitle) {
-                setState(() {
-                  tasks.add(Task(name: taskTitle));
-                });
-                Navigator.pop(context);
-              },
-            ),
+            builder: (context) => AddTaskScreen(),
           );
         },
         child: Icon(Icons.add),
